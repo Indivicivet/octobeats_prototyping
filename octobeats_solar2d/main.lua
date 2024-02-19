@@ -69,6 +69,28 @@ local function handleKeyPress(event)
     if (event.keyName == "numPad1" or event.keyName == "end") then
         spawnNote()
     end
+    if (event.keyName == "numPad2" or event.keyName == "down") then
+        spawnNote()
+    end
+    if (event.keyName == "numPad3" or event.keyName == "pageDown") then
+        spawnNote()
+    end
+    if (event.keyName == "numPad4" or event.keyName == "left") then
+        spawnNote()
+    end
+    -- if we want numPad5 functionality (center button), we'll have to force NumLock on
+    if (event.keyName == "numPad6" or event.keyName == "right") then
+        spawnNote()
+    end
+    if (event.keyName == "numPad7" or event.keyName == "home") then
+        spawnNote()
+    end
+    if (event.keyName == "numPad8" or event.keyName == "up") then
+        spawnNote()
+    end
+    if (event.keyName == "numPad9" or event.keyName == "pageUp") then
+        spawnNote()
+    end
 end
 
 
