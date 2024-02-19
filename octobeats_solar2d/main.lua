@@ -52,16 +52,30 @@ local score_text = display.newText(
 
 local t_note_display = {}
 
+local diag = 1 / math.sqrt(2)
+local note_directions = {
+    {1, 0},
+    {diag, diag},
+    {0, 1},
+    {-diag, diag},
+    {-1, 0},
+    {-diag, -diag},
+    {0, -1},
+    {diag, -diag}
+}
+
 local function spawnNote()
     local note_display = display.newCircle(
-        GAMEPLAY_MID_X + math.random() * 100,
-        GAMEPLAY_MID_Y + math.random() * 100,
+        GAMEPLAY_MID_X,
+        GAMEPLAY_MID_Y,
         30
     )
     note_display.fill = {type="none"}
     note_display.strokeWidth = 5
-    note_display.dir_x = 1
-    note_display.dir_y = 2
+    note_display.dir_idx = math.random(0, 7)
+    local dir = note_directions[note_display.dir_idx + 1]
+    note_display.dir_x = dir[1]
+    note_display.dir_y = dir[2]
     table.insert(t_note_display, note_display)
 end
 
@@ -130,7 +144,8 @@ local function mainLoop()
         frames_t = frames_t - FRAMES_PER_BEAT
     end
     for i, note_display in ipairs(t_note_display) do
-        note_display.x = note_display.x + note_display.dir_x
+        note_display.x = note_display.x + note_display.dir_x * 3
+        note_display.y = note_display.y + note_display.dir_y * 3
     end
     timer.performWithDelay(1 / UPDATE_RATE, mainLoop)
 end
