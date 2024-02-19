@@ -6,6 +6,11 @@
 
 math.randomseed(1)  --os.time()
 
+local BPM = 180
+local UPDATE_RATE = 60  -- it just always is...
+local BEATS_PER_SECOND = BPM / 60
+local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
+
 local HEIGHT = 720
 
 local GAMEPLAY_MID_X = display.contentCenterX
@@ -134,15 +139,9 @@ end
 Runtime:addEventListener("key", handleKeyPress)
 
 
--- todo :: no idea if this is working proper.
--- (todo :: actually make this based on frames since that's how Solar2D works...)
-local BPM = 180
-local UPDATE_RATE = 60  -- it just always is...
-local BEATS_PER_SECOND = BPM / 60
-local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
-
 local frames_t = 0
 
+-- todo :: no idea if this is working proper.
 local function mainLoop()
     frames_t = frames_t + 1
     while frames_t > FRAMES_PER_BEAT do
