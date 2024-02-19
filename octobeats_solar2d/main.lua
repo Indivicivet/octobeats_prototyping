@@ -108,7 +108,10 @@ local function spawnNote()
     local dir = note_directions[note_display.dir_idx + 1]
     note_display.dir_x = dir[1]
     note_display.dir_y = dir[2]
-    note_display.target_hit_time = frame + FRAMES_PER_BEAT * (BEAT_COUNT_IN + BEAT_CENTER_TIME)
+    note_display.target_hit_time = (
+        frame
+        + FRAMES_PER_BEAT * (BEAT_COUNT_IN + BEAT_CENTER_TIME)
+    )
     table.insert(t_note_display, note_display)
 end
 
