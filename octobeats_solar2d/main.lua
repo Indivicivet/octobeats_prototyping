@@ -56,10 +56,15 @@ local function spawnNote()
     local note_display = display.newCircle(
         GAMEPLAY_MID_X + math.random() * 100,
         GAMEPLAY_MID_Y + math.random() * 100,
-        10
+        30
     )
+    note_display.fill = {type="none"}
+    note_display.strokeWidth = 5
     table.insert(t_note_display, note_display)
 end
+
+
+spawnNote()
 
 
 local function noteButtonPressed(idx)
