@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+math.randomseed(1)  /*os.time()*/
+
 local HEIGHT = 720
 
 local background = display.newImageRect(
