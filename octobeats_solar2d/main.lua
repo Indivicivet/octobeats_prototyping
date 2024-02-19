@@ -112,11 +112,19 @@ end
 Runtime:addEventListener("key", handleKeyPress)
 
 
+-- todo :: no idea if this is working proper.
+local BPM = 180
+local BEATS_PER_SECOND = BPM / 60
 local UPDATE_RATE = 100
+local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
+
+local frames_t = 0
 
 local function mainLoop()
-    if math.random() < 0.1 then
+    frames_t = frames_t + 1
+    while frames_t > FRAMES_PER_BEAT do
         spawnNote()
+        frames_t = frames_t - FRAMES_PER_BEAT
     end
     timer.performWithDelay(1 / UPDATE_RATE, mainLoop)
 end
