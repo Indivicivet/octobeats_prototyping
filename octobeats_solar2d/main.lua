@@ -137,8 +137,8 @@ Runtime:addEventListener("key", handleKeyPress)
 -- todo :: no idea if this is working proper.
 -- (todo :: actually make this based on frames since that's how Solar2D works...)
 local BPM = 180
+local UPDATE_RATE = 60  -- it just always is...
 local BEATS_PER_SECOND = BPM / 60
-local UPDATE_RATE = 100
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 
 local frames_t = 0
@@ -153,7 +153,7 @@ local function mainLoop()
         note_display.x = note_display.x + note_display.dir_x * 3
         note_display.y = note_display.y + note_display.dir_y * 3
     end
-    timer.performWithDelay(1 / UPDATE_RATE, mainLoop)
+    timer.performWithDelay(1, mainLoop) -- 60fps cap?
 end
 
 mainLoop()
