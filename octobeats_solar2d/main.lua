@@ -63,6 +63,9 @@ end
 
 
 local function handleKeyPress(event)
+    if (event.phase == "up") then
+        return
+    end
     if (event.keyName == "numPad1" or event.keyName == "end") then
         spawnNote()
     end
