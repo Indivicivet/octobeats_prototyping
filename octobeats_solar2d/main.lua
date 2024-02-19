@@ -4,7 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 
-math.randomseed(1)  /*os.time()*/
+math.randomseed(1)  --os.time()
 
 local HEIGHT = 720
 
@@ -18,6 +18,9 @@ local oct_size = HEIGHT * 0.5 * 0.8
 local a = oct_size
 local b = oct_size / (1 + math.sqrt(2))
 
+local GAMEPLAY_MID_X = display.contentCenterX
+local GAMEPLAY_MID_Y = display.contentCenterY
+
 local oct_vertices = {
     a, b,
     b, a,
@@ -29,8 +32,8 @@ local oct_vertices = {
     a, -b
 }
 local oct = display.newPolygon(
-    display.contentCenterX,
-    display.contentCenterY,
+    GAMEPLAY_MID_X,
+    GAMEPLAY_MID_Y,
     oct_vertices
 )
 oct.fill = {type="none"}
@@ -46,3 +49,16 @@ local score_text = display.newText(
     native.systemFont,
     HEIGHT * 0.15
 )
+
+local t_note_display = {}
+
+local function spawnNote()
+    local note_display = display.newCircle(
+        GAMEPLAY_MID_X,
+        GAMEPLAY_MID_Y,
+        10
+    )
+    table.insert(t_note_display, note_display)
+end
+
+spawnNote()
