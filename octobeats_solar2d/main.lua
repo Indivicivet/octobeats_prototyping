@@ -19,13 +19,31 @@ local HEIGHT = 720
 local GAMEPLAY_MID_X = display.contentCenterX
 local GAMEPLAY_MID_Y = display.contentCenterY
 
+local oct_size = HEIGHT * 0.5 * 0.8
+
 local background = display.newImageRect(
     "octobeats_bg_0001.png", HEIGHT * 3, HEIGHT * 2
 )
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
-local oct_size = HEIGHT * 0.5 * 0.8
+-- background decoration, maybe doesn't help gameplay intuition...?
+for ii = -1, 1 do
+    for jj = -1, 1 do
+        if ii ~= 0 or jj ~= 0 then
+            local bg_square = display.newRect(
+                GAMEPLAY_MID_X + 0.7 * oct_size * ii,
+                GAMEPLAY_MID_Y + 0.7 * oct_size * jj,
+                0.4 * oct_size,
+                0.4 * oct_size
+            )
+            bg_square.fill = {type="none"}
+            bg_square.strokeWidth = 5
+            bg_square.alpha = 0.4
+        end
+    end
+end
+
 local a = oct_size
 local b = oct_size / (1 + math.sqrt(2))
 
