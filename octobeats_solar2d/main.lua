@@ -11,10 +11,15 @@ local UPDATE_RATE = 60  -- it just always is...
 local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 
+-- gameplay stuff; "speed"
 local BEAT_COUNT_IN = 2
 local BEAT_CENTER_TIME = 1
+
+-- gameplay stuff: timings
 local BEATS_MAX_OVERSTEP = 0.2
 local BEATS_MAX_PREHIT = 0.2
+
+local NULL_PRESS_PENALTY = 0.2
 
 local HEIGHT = 720
 
@@ -71,7 +76,6 @@ oct.alpha = 0.7
 local notes_hit = 0
 local notes_missed = 0
 local null_presses = 0
-local score = 0
 
 local scoretext_x = display.contentCenterX - oct_size - HEIGHT * 0.15
 local notes_hit_text = display.newText(
@@ -90,7 +94,7 @@ local null_presses_text = display.newText(
 )
 null_presses_text:setTextColor(1, 0, 0)
 local score_text = display.newText(
-    score,
+    "---",
     scoretext_x,
     display.contentCenterY + 150,
     native.systemFont,
@@ -238,7 +242,11 @@ local function mainLoop()
 
     notes_hit_text.text = string.format("%d / %d", notes_hit, notes_hit + notes_missed)
     null_presses_text.text = null_presses
-    score_text.text = score
+
+    if notes_hit > 0 or notes_missed > 0 then
+        local score = (notes_hit - null_presses * NULL_PRESS_PENALTY) / (notes_hit + notes_missed)
+        score_text.text = string.format("%.1f%%", score * 100)
+    end
 
     timer.performWithDelay(1, mainLoop) -- 60fps cap?
 end
