@@ -11,6 +11,9 @@ local UPDATE_RATE = 60  -- it just always is...
 local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 
+local BEAT_COUNT_IN = 2
+local BEAT_CENTER_TIME = 1
+
 local HEIGHT = 720
 
 local GAMEPLAY_MID_X = display.contentCenterX
@@ -69,6 +72,11 @@ local note_directions = {
     {diag, diag}
 }
 
+
+local frame = 0
+local frames_since_last_spawn = 0
+
+
 local function spawnNote()
     local note_display = display.newCircle(
         GAMEPLAY_MID_X,
@@ -81,6 +89,7 @@ local function spawnNote()
     local dir = note_directions[note_display.dir_idx + 1]
     note_display.dir_x = dir[1]
     note_display.dir_y = dir[2]
+    note_display.target_hit_time = frame + FRAMES_PER_BEAT * (BEAT_COUNT_IN + BEAT_CENTER_TIME)
     table.insert(t_note_display, note_display)
 end
 
@@ -139,18 +148,23 @@ end
 Runtime:addEventListener("key", handleKeyPress)
 
 
-local frames_t = 0
-
 -- todo :: no idea if this is working proper.
 local function mainLoop()
-    frames_t = frames_t + 1
-    while frames_t > FRAMES_PER_BEAT do
+    frame = frame + 1
+    frames_since_last_spawn = frames_since_last_spawn + 1
+    while frames_since_last_spawn > FRAMES_PER_BEAT do
         spawnNote()
-        frames_t = frames_t - FRAMES_PER_BEAT
+        frames_since_last_spawn = frames_since_last_spawn - FRAMES_PER_BEAT
     end
     for i, note_display in ipairs(t_note_display) do
-        note_display.x = note_display.x + note_display.dir_x * 3
-        note_display.y = note_display.y + note_display.dir_y * 3
+        local radial = math.max(
+            1 - (note_display.target_hit_time - frame) / UPDATE_RATE,
+            0.2
+        ) * oct_size
+        if radial > 0 then
+            note_display.x = GAMEPLAY_MID_X + radial * note_display.dir_x;
+            note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
+        end
     end
     timer.performWithDelay(1, mainLoop) -- 60fps cap?
 end
