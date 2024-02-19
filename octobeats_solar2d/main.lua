@@ -8,6 +8,9 @@ math.randomseed(1)  --os.time()
 
 local HEIGHT = 720
 
+local GAMEPLAY_MID_X = display.contentCenterX
+local GAMEPLAY_MID_Y = display.contentCenterY
+
 local background = display.newImageRect(
     "octobeats_bg_0001.png", HEIGHT * 3, HEIGHT * 2
 )
@@ -17,9 +20,6 @@ background.y = display.contentCenterY
 local oct_size = HEIGHT * 0.5 * 0.8
 local a = oct_size
 local b = oct_size / (1 + math.sqrt(2))
-
-local GAMEPLAY_MID_X = display.contentCenterX
-local GAMEPLAY_MID_Y = display.contentCenterY
 
 local oct_vertices = {
     a, b,
