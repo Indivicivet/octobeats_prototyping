@@ -22,14 +22,14 @@ local a = oct_size
 local b = oct_size / (1 + math.sqrt(2))
 
 local oct_vertices = {
-    a, b,
-    b, a,
-    -b, a,
-    -a, b,
-    -a, -b,
-    -b, -a,
+    a, -b,
     b, -a,
-    a, -b
+    -b, -a,
+    -a, -b,
+    -a, b,
+    -b, a,
+    b, a,
+    a, b
 }
 local oct = display.newPolygon(
     GAMEPLAY_MID_X,
@@ -55,13 +55,13 @@ local t_note_display = {}
 local diag = 1 / math.sqrt(2)
 local note_directions = {
     {1, 0},
-    {diag, diag},
-    {0, 1},
-    {-diag, diag},
-    {-1, 0},
-    {-diag, -diag},
+    {diag, -diag},
     {0, -1},
-    {diag, -diag}
+    {-diag, -diag},
+    {-1, 0},
+    {-diag, diag},
+    {0, 1},
+    {diag, diag}
 }
 
 local function spawnNote()
