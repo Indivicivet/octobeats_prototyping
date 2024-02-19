@@ -60,6 +60,8 @@ local function spawnNote()
     )
     note_display.fill = {type="none"}
     note_display.strokeWidth = 5
+    note_display.dir_x = 1
+    note_display.dir_y = 2
     table.insert(t_note_display, note_display)
 end
 
@@ -113,6 +115,7 @@ Runtime:addEventListener("key", handleKeyPress)
 
 
 -- todo :: no idea if this is working proper.
+-- (todo :: actually make this based on frames since that's how Solar2D works...)
 local BPM = 180
 local BEATS_PER_SECOND = BPM / 60
 local UPDATE_RATE = 100
@@ -125,6 +128,9 @@ local function mainLoop()
     while frames_t > FRAMES_PER_BEAT do
         spawnNote()
         frames_t = frames_t - FRAMES_PER_BEAT
+    end
+    for i, note_display in ipairs(t_note_display) do
+        note_display.x = note_display.x + note_display.dir_x
     end
     timer.performWithDelay(1 / UPDATE_RATE, mainLoop)
 end
