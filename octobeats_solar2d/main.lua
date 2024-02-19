@@ -31,3 +31,4 @@ local oct = display.newPolygon(
 )
 oct.fill = {type="none"}
 oct.strokeWidth = 5
+oct.alpha = 0.7
