@@ -54,11 +54,19 @@ local t_note_display = {}
 
 local function spawnNote()
     local note_display = display.newCircle(
-        GAMEPLAY_MID_X,
-        GAMEPLAY_MID_Y,
+        GAMEPLAY_MID_X + math.random() * 100,
+        GAMEPLAY_MID_Y + math.random() * 100,
         10
     )
     table.insert(t_note_display, note_display)
 end
 
-spawnNote()
+
+local function handleKeyPress(event)
+    if (event.keyName == "numPad1" or event.keyName == "end") then
+        spawnNote()
+    end
+end
+
+
+Runtime:addEventListener("key", handleKeyPress)
