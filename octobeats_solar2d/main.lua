@@ -75,16 +75,9 @@ local score = 0
 
 local scoretext_x = display.contentCenterX - oct_size - HEIGHT * 0.15
 local notes_hit_text = display.newText(
-    notes_hit,
+    "---",
     scoretext_x,
-    display.contentCenterY - 50,
-    native.systemFont,
-    HEIGHT * 0.1
-)
-local notes_missed_text = display.newText(
-    notes_missed,
-    scoretext_x,
-    display.contentCenterY - 25,
+    display.contentCenterY - 100,
     native.systemFont,
     HEIGHT * 0.1
 )
@@ -95,10 +88,11 @@ local null_presses_text = display.newText(
     native.systemFont,
     HEIGHT * 0.1
 )
+null_presses_text:setTextColor(1, 0, 0)
 local score_text = display.newText(
     score,
     scoretext_x,
-    display.contentCenterY + 50,
+    display.contentCenterY + 150,
     native.systemFont,
     HEIGHT * 0.15
 )
@@ -242,8 +236,7 @@ local function mainLoop()
         end
     end
 
-    notes_hit_text.text = notes_hit
-    notes_missed_text.text = notes_missed
+    notes_hit_text.text = string.format("%d / %d", notes_hit, notes_hit + notes_missed)
     null_presses_text.text = null_presses
     score_text.text = score
 
