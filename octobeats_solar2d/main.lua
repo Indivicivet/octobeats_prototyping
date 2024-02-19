@@ -13,6 +13,7 @@ local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 
 local BEAT_COUNT_IN = 2
 local BEAT_CENTER_TIME = 1
+local BEATS_MAX_OVERSTEP = 0.2
 
 local HEIGHT = 720
 
@@ -175,13 +176,18 @@ local function mainLoop()
         frames_since_last_spawn = frames_since_last_spawn - FRAMES_PER_BEAT
     end
     for i, note_display in ipairs(t_note_display) do
+        local beat_time_left = (note_display.target_hit_time - frame) / UPDATE_RATE
         local radial = math.max(
-            1 - (note_display.target_hit_time - frame) / UPDATE_RATE,
+            1 - beat_time_left,
             0.2
         ) * oct_size
         if radial > 0 then
             note_display.x = GAMEPLAY_MID_X + radial * note_display.dir_x;
             note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
+        end
+        if beat_time_left < -BEATS_MAX_OVERSTEP then
+            note_display.stroke = {1, 0, 0}
+            note_display.alpha = math.min(1, 1 + 2 * (beat_time_left + BEATS_MAX_OVERSTEP))
         end
     end
     timer.performWithDelay(1, mainLoop) -- 60fps cap?
