@@ -28,6 +28,8 @@ local GAMEPLAY_MID_Y = display.contentCenterY
 
 local oct_size = HEIGHT * 0.5 * 0.8
 
+local click_sound = audio.loadSound("click_0001.wav")
+
 local background = display.newImageRect(
     "octobeats_bg_0001.png", HEIGHT * 3, HEIGHT * 2
 )
@@ -229,6 +231,9 @@ local function mainLoop()
         if radial > 0 then
             note_display.x = GAMEPLAY_MID_X + radial * note_display.dir_x;
             note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
+        end
+        if beat_time_left < 0 and beat_time_left > -1.01 / 60 then
+            audio.play(click_sound)
         end
         if beat_time_left < -BEATS_MAX_OVERSTEP then
             if note_display.hit_state == "NONE" then
