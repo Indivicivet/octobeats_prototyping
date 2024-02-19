@@ -62,34 +62,40 @@ local function spawnNote()
 end
 
 
+local function noteButtonPressed(idx)
+    --- counting counter clockwise from RHS = 0
+    spawnNote()
+end
+
+
 local function handleKeyPress(event)
     if (event.phase == "up") then
         return
     end
     if (event.keyName == "numPad1" or event.keyName == "end") then
-        spawnNote()
+        noteButtonPressed(5)
     end
     if (event.keyName == "numPad2" or event.keyName == "down") then
-        spawnNote()
+        noteButtonPressed(6)
     end
     if (event.keyName == "numPad3" or event.keyName == "pageDown") then
-        spawnNote()
+        noteButtonPressed(7)
     end
     if (event.keyName == "numPad4" or event.keyName == "left") then
-        spawnNote()
+        noteButtonPressed(4)
     end
     -- if we want numPad5 functionality (center button), we'll have to force NumLock on
     if (event.keyName == "numPad6" or event.keyName == "right") then
-        spawnNote()
+        noteButtonPressed(0)
     end
     if (event.keyName == "numPad7" or event.keyName == "home") then
-        spawnNote()
+        noteButtonPressed(3)
     end
     if (event.keyName == "numPad8" or event.keyName == "up") then
-        spawnNote()
+        noteButtonPressed(2)
     end
     if (event.keyName == "numPad9" or event.keyName == "pageUp") then
-        spawnNote()
+        noteButtonPressed(1)
     end
 end
 
