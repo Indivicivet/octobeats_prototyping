@@ -90,6 +90,12 @@ local function noteButtonPressed(idx)
         GAMEPLAY_MID_Y + oct_vertices[2 * other_vertex_idx + 2]
     )
     disp.strokeWidth = 30
+
+    local function clearNotePressIndicator()
+        display.remove(disp)
+    end
+
+    timer.performWithDelay(100, clearNotePressIndicator)
 end
 
 
