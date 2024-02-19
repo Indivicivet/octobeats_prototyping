@@ -14,6 +14,7 @@ local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 local BEAT_COUNT_IN = 2
 local BEAT_CENTER_TIME = 1
 local BEATS_MAX_OVERSTEP = 0.2
+local BEATS_MAX_PREHIT = 0.2
 
 local HEIGHT = 720
 
@@ -126,6 +127,17 @@ local function noteButtonPressed(idx)
         GAMEPLAY_MID_Y + oct_vertices[2 * other_vertex_idx + 2]
     )
     disp.strokeWidth = 30
+    for i, note_display in ipairs(t_note_display) do
+        local ahead_beats = (note_display.target_hit_time - frame) / FRAMES_PER_BEAT 
+        if (
+            note_display.dir_idx == idx
+            and ahead_beats < BEATS_MAX_PREHIT
+            and ahead_beats > -BEATS_MAX_OVERSTEP
+        ) then
+            note_display.stroke = {0, 1, 0}
+            score = score + 1
+        end
+    end
 
     local function clearNotePressIndicator()
         display.remove(disp)
@@ -193,6 +205,9 @@ local function mainLoop()
             note_display.alpha = math.min(1, 1 + 2 * (beat_time_left + BEATS_MAX_OVERSTEP))
         end
     end
+
+    score_text.text = score
+
     timer.performWithDelay(1, mainLoop) -- 60fps cap?
 end
 
