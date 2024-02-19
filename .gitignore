@@ -40,3 +40,4 @@ luac.out
 *.hex
 
 octobeats_solar2d/.build/
+octobeats_solar2d/build/
