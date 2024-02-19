@@ -26,9 +26,15 @@ local oct_vertices = {
 }
 local oct = display.newPolygon(
     display.contentCenterX,
-    display.contentCenterY,
+    display.contentCenterY + 20,
     oct_vertices
 )
 oct.fill = {type="none"}
 oct.strokeWidth = 5
 oct.alpha = 0.7
+
+local score = 0
+
+local score_text = display.newText(
+    score, display.contentCenterX, 40, native.systemFont, 50
+)
