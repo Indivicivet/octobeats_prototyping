@@ -66,10 +66,10 @@ local function noteButtonPressed(idx)
     --- counting counter clockwise from RHS = 0
     local other_vertex_idx = (idx + 7) % 8
     local disp = display.newLine(
-        GAMEPLAY_MID_X + oct_vertices[2 * idx],
-        GAMEPLAY_MID_Y + oct_vertices[2 * idx + 1],
-        GAMEPLAY_MID_X + oct_vertices[2 * other_vertex_idx],
-        GAMEPLAY_MID_Y + oct_vertices[2 * other_vertex_idx + 1]
+        GAMEPLAY_MID_X + oct_vertices[2 * idx + 1],
+        GAMEPLAY_MID_Y + oct_vertices[2 * idx + 2],
+        GAMEPLAY_MID_X + oct_vertices[2 * other_vertex_idx + 1],
+        GAMEPLAY_MID_Y + oct_vertices[2 * other_vertex_idx + 2]
     )
     disp.strokeWidth = 30
 end
