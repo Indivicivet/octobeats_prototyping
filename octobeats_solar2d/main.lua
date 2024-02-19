@@ -64,9 +64,6 @@ local function spawnNote()
 end
 
 
-spawnNote()
-
-
 local function noteButtonPressed(idx)
     --- counting counter clockwise from RHS = 0
     local other_vertex_idx = (idx + 7) % 8
@@ -113,3 +110,15 @@ end
 
 
 Runtime:addEventListener("key", handleKeyPress)
+
+
+local UPDATE_RATE = 100
+
+local function mainLoop()
+    if math.random() < 0.1 then
+        spawnNote()
+    end
+    timer.performWithDelay(1 / UPDATE_RATE, mainLoop)
+end
+
+mainLoop()
