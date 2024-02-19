@@ -4,4 +4,6 @@
 --
 -----------------------------------------------------------------------------------------
 
--- Your code here
+local background = display.newImageRect(
+    "octobeats_bg_0001.png", 2048, 1536
+)
