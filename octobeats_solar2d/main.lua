@@ -68,12 +68,37 @@ oct.fill = {type="none"}
 oct.strokeWidth = HEIGHT * 0.01
 oct.alpha = 0.7
 
+local notes_hit = 0
+local notes_missed = 0
+local null_presses = 0
 local score = 0
 
+local scoretext_x = display.contentCenterX - oct_size - HEIGHT * 0.15
+local notes_hit_text = display.newText(
+    notes_hit,
+    scoretext_x,
+    display.contentCenterY - 50,
+    native.systemFont,
+    HEIGHT * 0.1
+)
+local notes_missed_text = display.newText(
+    notes_missed,
+    scoretext_x,
+    display.contentCenterY - 25,
+    native.systemFont,
+    HEIGHT * 0.1
+)
+local null_presses_text = display.newText(
+    null_presses,
+    scoretext_x,
+    display.contentCenterY,
+    native.systemFont,
+    HEIGHT * 0.1
+)
 local score_text = display.newText(
     score,
-    display.contentCenterX - oct_size - HEIGHT * 0.15,
-    display.contentCenterY,
+    scoretext_x,
+    display.contentCenterY + 50,
     native.systemFont,
     HEIGHT * 0.15
 )
@@ -113,6 +138,7 @@ local function spawnNote()
         frame
         + FRAMES_PER_BEAT * (BEAT_COUNT_IN + BEAT_CENTER_TIME)
     )
+    note_display.hit_state = "NONE"
     table.insert(t_note_display, note_display)
 end
 
@@ -127,6 +153,7 @@ local function noteButtonPressed(idx)
         GAMEPLAY_MID_Y + oct_vertices[2 * other_vertex_idx + 2]
     )
     disp.strokeWidth = 30
+    local hit_a_note = false
     for i, note_display in ipairs(t_note_display) do
         local ahead_beats = (note_display.target_hit_time - frame) / FRAMES_PER_BEAT 
         if (
@@ -134,9 +161,14 @@ local function noteButtonPressed(idx)
             and ahead_beats < BEATS_MAX_PREHIT
             and ahead_beats > -BEATS_MAX_OVERSTEP
         ) then
+            hit_a_note = true
+            note_display.hit_state = "HIT"
             note_display.stroke = {0, 1, 0}
-            score = score + 1
+            notes_hit = notes_hit + 1
         end
+    end
+    if not hit_a_note then
+        null_presses = null_presses + 1
     end
 
     local function clearNotePressIndicator()
@@ -201,11 +233,18 @@ local function mainLoop()
             note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
         end
         if beat_time_left < -BEATS_MAX_OVERSTEP then
-            note_display.stroke = {1, 0, 0}
+            if note_display.hit_state == "NONE" then
+                note_display.stroke = {1, 0, 0}
+                note_display.hit_state = "MISSED" -- currently unused, maybe for future
+                notes_missed = notes_missed + 1
+            end
             note_display.alpha = math.min(1, 1 + 2 * (beat_time_left + BEATS_MAX_OVERSTEP))
         end
     end
 
+    notes_hit_text.text = notes_hit
+    notes_missed_text.text = notes_missed
+    null_presses_text.text = null_presses
     score_text.text = score
 
     timer.performWithDelay(1, mainLoop) -- 60fps cap?
