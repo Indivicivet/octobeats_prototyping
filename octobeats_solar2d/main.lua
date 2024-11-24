@@ -201,7 +201,8 @@ local function noteButtonPressed(idx, stick_idx)
         end
     end
     if not hit_a_note then
-        null_presses = null_presses + 1
+        -- TODO :: reinstate sensible scoring for misses once gameplay decided...
+        -- null_presses = null_presses + 1
     end
 
     local function clearNotePressIndicator()
