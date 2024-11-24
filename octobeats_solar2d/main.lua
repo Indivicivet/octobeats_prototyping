@@ -88,6 +88,15 @@ oct.fill = {type="none"}
 oct.strokeWidth = HEIGHT * 0.01
 oct.alpha = 0.7
 
+local center_circ = display.newCircle(
+    GAMEPLAY_MID_X,
+    GAMEPLAY_MID_Y,
+    10
+)
+center_circ.fill = {type="none"}
+center_circ.strokeWidth = 3
+center_circ.alpha = 0.7
+
 local notes_hit = 0
 local notes_missed = 0
 local null_presses = 0
