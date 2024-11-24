@@ -50,18 +50,20 @@ for i = 1, #input_devices do
 end
 
 -- background decoration, maybe doesn't help gameplay intuition...?
-for ii = -1, 1 do
-    for jj = -1, 1 do
-        if ii ~= 0 or jj ~= 0 then
-            local bg_square = display.newRect(
-                GAMEPLAY_MID_X + 0.7 * oct_size * ii,
-                GAMEPLAY_MID_Y + 0.7 * oct_size * jj,
-                0.4 * oct_size,
-                0.4 * oct_size
-            )
-            bg_square.fill = {type="none"}
-            bg_square.strokeWidth = 5
-            bg_square.alpha = 0.4
+if false then -- todo :: re-enable if we get "numpad support" back
+    for ii = -1, 1 do
+        for jj = -1, 1 do
+            if ii ~= 0 or jj ~= 0 then
+                local bg_square = display.newRect(
+                    GAMEPLAY_MID_X + 0.7 * oct_size * ii,
+                    GAMEPLAY_MID_Y + 0.7 * oct_size * jj,
+                    0.4 * oct_size,
+                    0.4 * oct_size
+                )
+                bg_square.fill = {type="none"}
+                bg_square.strokeWidth = 5
+                bg_square.alpha = 0.4
+            end
         end
     end
 end
