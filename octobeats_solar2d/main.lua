@@ -36,6 +36,19 @@ local background = display.newImageRect(
 background.x = display.contentCenterX
 background.y = display.contentCenterY
 
+-- setup controllers
+local input_devices = system.getInputDevices()
+local wireless_controller = nil
+
+for i = 1, #input_devices do
+    local device = input_devices[i]
+    print(device.displayName)
+    if device.displayName == "Wireless Controller" then
+        wireless_controller = device
+        break
+    end
+end
+
 -- background decoration, maybe doesn't help gameplay intuition...?
 for ii = -1, 1 do
     for jj = -1, 1 do
@@ -212,6 +225,51 @@ end
 
 
 Runtime:addEventListener("key", handleKeyPress)
+
+
+local last_x_value = 0
+local last_y_value = 0
+
+
+local function handleAxisEvent(event)
+    if event.axis.type == "x" then
+        last_x_value = event.normalizedValue
+    end
+    if event.axis.type == "y" then
+        last_y_value = event.normalizedValue
+    end
+    if (last_x_value ^ 2 + last_y_value ^ 2) < 0.1 ^ 2 then
+        return
+    end
+    -- TODO :
+    if (event.keyName == "numPad1" or event.keyName == "end") then
+        noteButtonPressed(5)
+    end
+    if (event.keyName == "numPad2" or event.keyName == "down") then
+        noteButtonPressed(6)
+    end
+    if (event.keyName == "numPad3" or event.keyName == "pageDown") then
+        noteButtonPressed(7)
+    end
+    if (event.keyName == "numPad4" or event.keyName == "left") then
+        noteButtonPressed(4)
+    end
+    if (event.keyName == "numPad6" or event.keyName == "right") then
+        noteButtonPressed(0)
+    end
+    if (event.keyName == "numPad7" or event.keyName == "home") then
+        noteButtonPressed(3)
+    end
+    if (event.keyName == "numPad8" or event.keyName == "up") then
+        noteButtonPressed(2)
+    end
+    if (event.keyName == "numPad9" or event.keyName == "pageUp") then
+        noteButtonPressed(1)
+    end
+end
+
+
+Runtime:addEventListener("axis", handleAxisEvent)
 
 
 -- todo :: no idea if this is working proper.
