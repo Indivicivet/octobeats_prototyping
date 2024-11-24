@@ -12,7 +12,7 @@ local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 
 -- gameplay stuff; "speed"
-local BEAT_COUNT_IN = 2
+local BEAT_COUNT_IN = 1.5
 local BEAT_CENTER_TIME = 1
 
 -- gameplay stuff: timings
