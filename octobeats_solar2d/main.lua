@@ -196,6 +196,7 @@ local function noteButtonPressed(idx, stick_idx)
             hit_a_note = true
             note_display.hit_state = "HIT"
             note_display.stroke = {0, 1, 0}
+            note_display.fill = {0, 1, 0, 0.4}
             notes_hit = notes_hit + 1
         end
     end
