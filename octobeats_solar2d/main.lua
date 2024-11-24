@@ -6,7 +6,7 @@
 
 math.randomseed(1)  --os.time()
 
-local BPM = 140
+local BPM = 100
 local UPDATE_RATE = 60  -- it just always is...
 local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
@@ -153,10 +153,10 @@ local function spawnNote()
     )
     note_display.hit_state = "NONE"
     hit_type_random_val = math.random(0, 99)
-    if hit_type_random_val < 25 then
+    if hit_type_random_val < 40 then
         note_display.hit_type = 0
         note_display:setStrokeColor(1, 0.5, 0.5)
-    elseif hit_type_random_val < 50 then
+    elseif hit_type_random_val < 80 then
         note_display.hit_type = 1
         note_display:setStrokeColor(0.5, 0.5, 1)
     else 
