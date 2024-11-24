@@ -276,7 +276,7 @@ local function mainLoop()
             note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
         end
         if beat_time_left < 0 and beat_time_left > -1.01 / 60 then
-            --audio.play(click_sound)
+            audio.play(click_sound)
         end
         if beat_time_left < -BEATS_MAX_OVERSTEP then
             if note_display.hit_state == "NONE" then
