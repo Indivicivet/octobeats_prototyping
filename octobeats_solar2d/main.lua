@@ -152,6 +152,16 @@ local function spawnNote()
         + FRAMES_PER_BEAT * (BEAT_COUNT_IN + BEAT_CENTER_TIME)
     )
     note_display.hit_state = "NONE"
+    hit_type_random_val = math.random(0, 99)
+    if hit_type_random_val < 25 then
+        note_display.hit_type = 0
+        note_display:setStrokeColor(1, 0.5, 0.5)
+    elseif hit_type_random_val < 50 then
+        note_display.hit_type = 1
+        note_display:setStrokeColor(0.5, 0.5, 1)
+    else 
+        note_display.hit_type = "EITHER"
+    end
     table.insert(t_note_display, note_display)
 end
 
@@ -176,6 +186,10 @@ local function noteButtonPressed(idx, stick_idx)
         local ahead_beats = (note_display.target_hit_time - frame) / FRAMES_PER_BEAT 
         if (
             note_display.dir_idx == idx
+            and (
+                note_display.hit_type == "EITHER"
+                or note_display.hit_type == stick_idx
+            )
             and ahead_beats < BEATS_MAX_PREHIT
             and ahead_beats > -BEATS_MAX_OVERSTEP
         ) then
