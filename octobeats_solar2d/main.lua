@@ -156,7 +156,7 @@ local function spawnNote()
 end
 
 
-local function noteButtonPressed(idx)
+local function noteButtonPressed(idx, stick_idx)
     --- counting counter clockwise from RHS = 0
     local other_vertex_idx = (idx + 7) % 8
     local disp = display.newLine(
@@ -166,6 +166,11 @@ local function noteButtonPressed(idx)
         GAMEPLAY_MID_Y + oct_vertices[2 * other_vertex_idx + 2]
     )
     disp.strokeWidth = 30
+    if stick_idx == 0 then
+        disp:setStrokeColor(1, 0.5, 0.5) -- left
+    else
+        disp:setStrokeColor(0.5, 0.5, 1) -- right
+    end
     local hit_a_note = false
     for i, note_display in ipairs(t_note_display) do
         local ahead_beats = (note_display.target_hit_time - frame) / FRAMES_PER_BEAT 
@@ -229,28 +234,43 @@ Runtime:addEventListener("key", handleKeyPress)
 
 local last_x_value = 0
 local last_y_value = 0
+local last_right_x_value = 0
+local last_right_y_value = 0
+
+    
+local function handleStickChanged(stick_x, stick_y, stick_idx)
+    last_mag_squared = stick_x ^ 2 + stick_y ^ 2
+    if last_mag_squared < 0.1 ^ 2 then
+        return
+    end
+    angle = math.atan2(stick_y, stick_x) -- minus pi (above left) to pi (below left)
+    if angle == nil then
+        return
+    end
+    angle_segment = angle * 4 / math.pi -- minus 4 to 4
+    seg_idx = (7 - math.floor(angle_segment - 0.5)) % 8
+    noteButtonPressed(seg_idx, stick_idx)
+end
 
 
 local function handleAxisEvent(event)
     if event.axis.type == "x" then
         last_x_value = event.normalizedValue
+        handleStickChanged(last_x_value, last_y_value, 0)
     end
     if event.axis.type == "y" then
         last_y_value = event.normalizedValue
+        handleStickChanged(last_x_value, last_y_value, 0)
     end
-    last_mag_squared = last_x_value ^ 2 + last_y_value ^ 2
-    if last_mag_squared < 0.1 ^ 2 then
-        return
+    if event.axis.type == "z" then
+        last_right_x_value = event.normalizedValue
+        handleStickChanged(last_right_x_value, last_right_y_value, 1)
     end
-    angle = math.atan2(last_y_value, last_x_value) -- minus pi (above left) to pi (below left)
-    if angle == nil then
-        return
+    if event.axis.type == "rotationZ" then
+        last_right_y_value = event.normalizedValue
+        handleStickChanged(last_right_x_value, last_right_y_value, 1)
     end
-    print(last_x_value, angle)
-    angle_segment = angle * 4 / math.pi -- minus 4 to 4
-    my_idx = (7 - math.floor(angle_segment - 0.5)) % 8
-    print(my_idx)
-    noteButtonPressed(my_idx)
+    
 end
 
 
