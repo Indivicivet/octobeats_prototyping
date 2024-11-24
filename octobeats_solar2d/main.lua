@@ -305,7 +305,7 @@ local function mainLoop()
         local beat_time_left = (note_display.target_hit_time - frame) / UPDATE_RATE
         local radial = math.max(
             1 - beat_time_left,
-            0.2
+            0.2 - (beat_time_left - 0.8) * 0.2
         ) * oct_size
         if radial > 0 then
             note_display.x = GAMEPLAY_MID_X + radial * note_display.dir_x;
