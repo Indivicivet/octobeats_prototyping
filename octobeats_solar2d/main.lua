@@ -201,6 +201,7 @@ local function noteButtonPressed(idx, stick_idx)
                 note_display.hit_type == "EITHER"
                 or note_display.hit_type == stick_idx
             )
+            and note_display.hit_state == "NONE"
             and ahead_beats < BEATS_MAX_PREHIT
             and ahead_beats > -BEATS_MAX_OVERSTEP
         ) then
