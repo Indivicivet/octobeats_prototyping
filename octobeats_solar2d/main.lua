@@ -238,34 +238,19 @@ local function handleAxisEvent(event)
     if event.axis.type == "y" then
         last_y_value = event.normalizedValue
     end
-    if (last_x_value ^ 2 + last_y_value ^ 2) < 0.1 ^ 2 then
+    last_mag_squared = last_x_value ^ 2 + last_y_value ^ 2
+    if last_mag_squared < 0.1 ^ 2 then
         return
     end
-    -- TODO :
-    if (event.keyName == "numPad1" or event.keyName == "end") then
-        noteButtonPressed(5)
+    angle = math.atan2(last_y_value, last_x_value) -- minus pi (above left) to pi (below left)
+    if angle == nil then
+        return
     end
-    if (event.keyName == "numPad2" or event.keyName == "down") then
-        noteButtonPressed(6)
-    end
-    if (event.keyName == "numPad3" or event.keyName == "pageDown") then
-        noteButtonPressed(7)
-    end
-    if (event.keyName == "numPad4" or event.keyName == "left") then
-        noteButtonPressed(4)
-    end
-    if (event.keyName == "numPad6" or event.keyName == "right") then
-        noteButtonPressed(0)
-    end
-    if (event.keyName == "numPad7" or event.keyName == "home") then
-        noteButtonPressed(3)
-    end
-    if (event.keyName == "numPad8" or event.keyName == "up") then
-        noteButtonPressed(2)
-    end
-    if (event.keyName == "numPad9" or event.keyName == "pageUp") then
-        noteButtonPressed(1)
-    end
+    print(last_x_value, angle)
+    angle_segment = angle * 4 / math.pi -- minus 4 to 4
+    my_idx = (7 - math.floor(angle_segment - 0.5)) % 8
+    print(my_idx)
+    noteButtonPressed(my_idx)
 end
 
 
@@ -291,7 +276,7 @@ local function mainLoop()
             note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
         end
         if beat_time_left < 0 and beat_time_left > -1.01 / 60 then
-            audio.play(click_sound)
+            --audio.play(click_sound)
         end
         if beat_time_left < -BEATS_MAX_OVERSTEP then
             if note_display.hit_state == "NONE" then
