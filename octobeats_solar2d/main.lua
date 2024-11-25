@@ -144,6 +144,7 @@ local note_directions = {
 
 local frame = 0
 local frames_since_last_spawn = 0
+local current_beat = 0
 
 
 local function spawnNote()
@@ -318,6 +319,7 @@ local function mainLoop()
     frame = frame + 1
     frames_since_last_spawn = frames_since_last_spawn + 1
     while frames_since_last_spawn > FRAMES_PER_BEAT do
+        current_beat = current_beat + 1
         spawnNote()
         frames_since_last_spawn = frames_since_last_spawn - FRAMES_PER_BEAT
     end
