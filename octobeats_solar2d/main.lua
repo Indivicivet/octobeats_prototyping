@@ -6,7 +6,7 @@
 
 math.randomseed(1)  --os.time()
 
-local BPM = 140
+local BPM = 320
 local UPDATE_RATE = 60  -- it just always is...
 local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
@@ -160,14 +160,18 @@ local function spawnNote()
     )
     note_display.hit_state = "NONE"
     -- random choice of hit data:
-    note_display.dir_idx = math.random(0, 7)
+    beat = current_beat % 8
+    if math.round(current_beat / 17) % 2 == 1 then
+        beat = 7 - beat
+    end
+    note_display.dir_idx = beat-- math.random(0, 7)
     hit_type_random_val = math.random(0, 99)
-    if hit_type_random_val < 40 then
+    if math.round(current_beat / 8) % 2 == 1 then
         note_display.hit_type = 0
-    elseif hit_type_random_val < 80 then
+    else--if hit_type_random_val < 80 then
         note_display.hit_type = 1
-    else 
-        note_display.hit_type = "EITHER"
+    --else 
+        --note_display.hit_type = "EITHER"
     end
     -- setup graphical and other data:
     if note_display.hit_type == 0 then
