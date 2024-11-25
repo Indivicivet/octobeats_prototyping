@@ -12,8 +12,8 @@ local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
 
 -- gameplay stuff; "speed"
-local BEAT_COUNT_IN = 1.5
-local BEAT_CENTER_TIME = 1
+local BEAT_COUNT_IN = 3
+local BEAT_CENTER_TIME = 2
 
 -- gameplay stuff: timings
 local BEATS_MAX_OVERSTEP = 0.2
@@ -324,25 +324,26 @@ local function mainLoop()
         frames_since_last_spawn = frames_since_last_spawn - FRAMES_PER_BEAT
     end
     for i, note_display in ipairs(t_note_display) do
-        local beat_time_left = (note_display.target_hit_time - frame) / UPDATE_RATE
+        local note_time_left = (note_display.target_hit_time - frame) / UPDATE_RATE
+        local note_beats_left = (note_display.target_hit_time - frame) / FRAMES_PER_BEAT
         local radial = math.max(
-            1 - beat_time_left,
-            0.2 - (beat_time_left - 0.8) * 0.2
+            1 - note_beats_left / (BEAT_COUNT_IN + BEAT_CENTER_TIME),
+            0.2 - (note_beats_left / (BEAT_COUNT_IN + BEAT_CENTER_TIME) - 0.8) * 0.2
         ) * oct_size
         if radial > 0 then
             note_display.x = GAMEPLAY_MID_X + radial * note_display.dir_x;
             note_display.y = GAMEPLAY_MID_Y + radial * note_display.dir_y;
         end
-        if beat_time_left < 0 and beat_time_left > -1.01 / 60 then
+        if note_time_left < 0 and note_time_left > -1.01 / 60 then
             audio.play(click_sound)
         end
-        if beat_time_left < -BEATS_MAX_OVERSTEP then
+        if note_time_left < -BEATS_MAX_OVERSTEP then
             if note_display.hit_state == "NONE" then
                 note_display.stroke = {1, 0, 0}
                 note_display.hit_state = "MISSED" -- currently unused, maybe for future
                 notes_missed = notes_missed + 1
             end
-            note_display.alpha = math.min(1, 1 + 2 * (beat_time_left + BEATS_MAX_OVERSTEP))
+            note_display.alpha = math.min(1, 1 + 2 * (note_time_left + BEATS_MAX_OVERSTEP))
         end
     end
 
