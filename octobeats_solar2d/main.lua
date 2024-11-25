@@ -152,7 +152,6 @@ local function spawnNote()
         GAMEPLAY_MID_Y,
         30
     )
-    note_display.fill = {type="none"}
     note_display.strokeWidth = 5
     note_display.dir_idx = math.random(0, 7)
     local dir = note_directions[note_display.dir_idx + 1]
@@ -167,11 +166,14 @@ local function spawnNote()
     if hit_type_random_val < 40 then
         note_display.hit_type = 0
         note_display:setStrokeColor(1, 0.5, 0.5)
+        note_display.fill = {1, 0.5, 0.5, 0.3}
     elseif hit_type_random_val < 80 then
         note_display.hit_type = 1
         note_display:setStrokeColor(0.5, 0.5, 1)
+        note_display.fill = {0.5, 0.5, 1, 0.3}
     else 
         note_display.hit_type = "EITHER"
+        note_display.fill = {1, 1, 1, 0.3}
     end
     table.insert(t_note_display, note_display)
 end
