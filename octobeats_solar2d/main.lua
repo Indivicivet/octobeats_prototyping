@@ -153,28 +153,34 @@ local function spawnNote()
         30
     )
     note_display.strokeWidth = 5
-    note_display.dir_idx = math.random(0, 7)
-    local dir = note_directions[note_display.dir_idx + 1]
-    note_display.dir_x = dir[1]
-    note_display.dir_y = dir[2]
     note_display.target_hit_time = (
         frame
         + FRAMES_PER_BEAT * (BEAT_COUNT_IN + BEAT_CENTER_TIME)
     )
     note_display.hit_state = "NONE"
+    -- random choice of hit data:
+    note_display.dir_idx = math.random(0, 7)
     hit_type_random_val = math.random(0, 99)
     if hit_type_random_val < 40 then
         note_display.hit_type = 0
-        note_display:setStrokeColor(1, 0.5, 0.5)
-        note_display.fill = {1, 0.5, 0.5, 0.3}
     elseif hit_type_random_val < 80 then
         note_display.hit_type = 1
-        note_display:setStrokeColor(0.5, 0.5, 1)
-        note_display.fill = {0.5, 0.5, 1, 0.3}
     else 
         note_display.hit_type = "EITHER"
+    end
+    -- setup graphical and other data:
+    if note_display.hit_type == 0 then
+        note_display:setStrokeColor(1, 0.5, 0.5)
+        note_display.fill = {1, 0.5, 0.5, 0.3}
+    elseif note_display.hit_type == 1 then
+        note_display:setStrokeColor(0.5, 0.5, 1)
+        note_display.fill = {0.5, 0.5, 1, 0.3}
+    elseif note_display.hit_type == "EITHER" then
         note_display.fill = {1, 1, 1, 0.3}
     end
+    local dir = note_directions[note_display.dir_idx + 1]
+    note_display.dir_x = dir[1]
+    note_display.dir_y = dir[2]
     table.insert(t_note_display, note_display)
 end
 
