@@ -6,7 +6,7 @@
 
 math.randomseed(1)  --os.time()
 
-local BPM = 100
+local BPM = 140
 local UPDATE_RATE = 60  -- it just always is...
 local BEATS_PER_SECOND = BPM / 60
 local FRAMES_PER_BEAT = UPDATE_RATE / BEATS_PER_SECOND
